@@ -5,7 +5,7 @@ import numpy as np
 import resampy
 import torch
 
-import torchcrepe
+import jaxcrepe
 
 
 ###############################################################################
@@ -37,9 +37,9 @@ def a_weighted(audio, sample_rate, hop_length=None, pad=True):
     audio = audio.detach().cpu().numpy().squeeze(0)
 
     # Resample
-    if sample_rate != torchcrepe.SAMPLE_RATE:
-        audio = resampy.resample(audio, sample_rate, torchcrepe.SAMPLE_RATE)
-        hop_length = int(hop_length * torchcrepe.SAMPLE_RATE / sample_rate)
+    if sample_rate != jaxcrepe.SAMPLE_RATE:
+        audio = resampy.resample(audio, sample_rate, jaxcrepe.SAMPLE_RATE)
+        hop_length = int(hop_length * jaxcrepe.SAMPLE_RATE / sample_rate)
 
     # Cache weights
     if not hasattr(a_weighted, 'weights'):
@@ -47,9 +47,9 @@ def a_weighted(audio, sample_rate, hop_length=None, pad=True):
 
     # Take stft
     stft = librosa.stft(audio,
-                        n_fft=torchcrepe.WINDOW_SIZE,
+                        n_fft=jaxcrepe.WINDOW_SIZE,
                         hop_length=hop_length,
-                        win_length=torchcrepe.WINDOW_SIZE,
+                        win_length=jaxcrepe.WINDOW_SIZE,
                         center=pad,
                         pad_mode='constant')
 
@@ -68,8 +68,8 @@ def a_weighted(audio, sample_rate, hop_length=None, pad=True):
 
 def perceptual_weights():
     """A-weighted frequency-dependent perceptual loudness weights"""
-    frequencies = librosa.fft_frequencies(sr=torchcrepe.SAMPLE_RATE,
-                                          n_fft=torchcrepe.WINDOW_SIZE)
+    frequencies = librosa.fft_frequencies(sr=jaxcrepe.SAMPLE_RATE,
+                                          n_fft=jaxcrepe.WINDOW_SIZE)
 
     # A warning is raised for nearly inaudible frequencies, but it ends up
     # defaulting to -100 db. That default is fine for our purposes.

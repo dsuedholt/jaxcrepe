@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 
-import torchcrepe
+import jaxcrepe
 
 
 ###############################################################################
@@ -20,7 +20,7 @@ class At:
         pitch = torch.clone(pitch)
 
         # Threshold
-        pitch[periodicity < self.value] = torchcrepe.UNVOICED
+        pitch[periodicity < self.value] = jaxcrepe.UNVOICED
         return pitch
 
 
@@ -50,7 +50,7 @@ class Hysteresis:
         periodicity = periodicity.flatten().cpu().numpy()
 
         # Ignore confidently unvoiced pitch
-        pitch[periodicity < self.lower_bound] = torchcrepe.UNVOICED
+        pitch[periodicity < self.lower_bound] = jaxcrepe.UNVOICED
 
         # Whiten pitch
         mean, std = np.nanmean(pitch), np.nanstd(pitch)
@@ -89,7 +89,7 @@ class Hysteresis:
                 i += 1
 
         # Remove pitch with low periodicity
-        pitch[periodicity < threshold] = torchcrepe.UNVOICED
+        pitch[periodicity < threshold] = jaxcrepe.UNVOICED
 
         # Unwhiten
         pitch = pitch * std + mean
@@ -118,14 +118,14 @@ class Silence:
     def __call__(self,
                  periodicity,
                  audio,
-                 sample_rate=torchcrepe.SAMPLE_RATE,
+                 sample_rate=jaxcrepe.SAMPLE_RATE,
                  hop_length=None,
                  pad=True):
         # Don't modify in-place
         periodicity = torch.clone(periodicity)
 
         # Compute loudness
-        loudness = torchcrepe.loudness.a_weighted(
+        loudness = jaxcrepe.loudness.a_weighted(
             audio, sample_rate, hop_length, pad)
 
         # Threshold silence

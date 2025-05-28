@@ -2,7 +2,7 @@ import argparse
 import os
 import warnings
 
-import torchcrepe
+import jaxcrepe
 
 
 ###############################################################################
@@ -55,7 +55,7 @@ def parse_args():
         help='The minimum frequency allowed')
     parser.add_argument(
         '--fmax',
-        default=torchcrepe.MAX_FMAX,
+        default=jaxcrepe.MAX_FMAX,
         type=float,
         help='The maximum frequency allowed')
     parser.add_argument(
@@ -114,34 +114,34 @@ def main():
 
     # Get decoder
     if args.decoder == 'argmax':
-        decoder = torchcrepe.decode.argmax
+        decoder = jaxcrepe.decode.argmax
     elif args.decoder == 'weighted_argmax':
-        decoder = torchcrepe.decode.weighted_argmax
+        decoder = jaxcrepe.decode.weighted_argmax
     elif args.decoder == 'viterbi':
-        decoder = torchcrepe.decode.viterbi
+        decoder = jaxcrepe.decode.viterbi
 
     # Infer pitch or embedding and save to disk
     if args.embed:
-        torchcrepe.embed_from_files_to_files(args.audio_files,
+        jaxcrepe.embed_from_files_to_files(args.audio_files,
+                                           args.output_files,
+                                           args.hop_length,
+                                           args.model,
+                                           args.batch_size,
+                                           device,
+                                           not args.no_pad)
+    else:
+        jaxcrepe.predict_from_files_to_files(args.audio_files,
                                              args.output_files,
+                                             None,
+                                             args.output_periodicity_files,
                                              args.hop_length,
+                                             args.fmin,
+                                             args.fmax,
                                              args.model,
+                                             decoder,
                                              args.batch_size,
                                              device,
                                              not args.no_pad)
-    else:
-        torchcrepe.predict_from_files_to_files(args.audio_files,
-                                               args.output_files,
-                                               None,
-                                               args.output_periodicity_files,
-                                               args.hop_length,
-                                               args.fmin,
-                                               args.fmax,
-                                               args.model,
-                                               decoder,
-                                               args.batch_size,
-                                               device,
-                                               not args.no_pad)
 
 
 # Run module entry point

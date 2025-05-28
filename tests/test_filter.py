@@ -2,7 +2,7 @@ import timeit
 
 import torch
 
-from torchcrepe.filter import mean, median, nanfilter, nanmean, nanmedian
+from jaxcrepe.filter import mean, median, nanfilter, nanmean, nanmedian
 
 ###############################################################################
 # Test filter.py

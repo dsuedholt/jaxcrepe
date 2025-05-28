@@ -1,6 +1,6 @@
 import torch
 
-import torchcrepe
+import jaxcrepe
 
 
 ###############################################################################
@@ -14,7 +14,7 @@ def test_at():
     periodicity = torch.tensor([.19, .22, .25, .17, .30])
 
     # Perform thresholding
-    output_pitch = torchcrepe.threshold.At(.20)(input_pitch, periodicity)
+    output_pitch = jaxcrepe.threshold.At(.20)(input_pitch, periodicity)
 
     # Ensure thresholding is not in-place
     assert not (input_pitch == output_pitch).all()

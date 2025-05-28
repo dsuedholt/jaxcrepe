@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 import torch
 
-import torchcrepe
+import jaxcrepe
 
 
 ###############################################################################
@@ -27,9 +27,9 @@ def activation_tiny():
 @pytest.fixture(scope='session')
 def audio():
     """Retrieve the test audio"""
-    audio, sample_rate = torchcrepe.load.audio(path('test.wav'))
-    if sample_rate != torchcrepe.SAMPLE_RATE:
-        audio = torchcrepe.resample(audio, sample_rate)
+    audio, sample_rate = jaxcrepe.load.audio(path('test.wav'))
+    if sample_rate != jaxcrepe.SAMPLE_RATE:
+        audio = jaxcrepe.resample(audio, sample_rate)
     return audio
 
 
