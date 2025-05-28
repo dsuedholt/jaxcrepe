@@ -1,6 +1,6 @@
 [project]
 name = "jaxcrepe"
-version = "0.1.0"
+version = "0.0.24"
 description = "CREPE pitch detection model in JAX and Equinox"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -10,4 +10,19 @@ dependencies = [
     'scipy',
     'jax',
     'equinox',
+    'tqdm',
 ]
+
+[dependency-groups]
+dev = [
+    "notebook>=7.4.3",
+    "pytest>=8.3.5",
+    "torchcrepe==0.0.24",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jaxcrepe"]

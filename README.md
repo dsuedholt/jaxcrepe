@@ -25,13 +25,11 @@ Perform the system-dependent PyTorch install using the instructions found
 
 ### Computing pitch and periodicity from audio
 
-
 ```python
-import torchcrepe
-
+import jaxcrepe
 
 # Load audio
-audio, sr = torchcrepe.load.audio( ... )
+audio, sr = jaxcrepe.load.audio(...)
 
 # Here we'll use a 5 millisecond hop length
 hop_length = int(sr / 200.)
@@ -51,14 +49,14 @@ device = 'cuda:0'
 batch_size = 2048
 
 # Compute pitch using first gpu
-pitch = torchcrepe.predict(audio,
-                           sr,
-                           hop_length,
-                           fmin,
-                           fmax,
-                           model,
-                           batch_size=batch_size,
-                           device=device)
+pitch = jaxcrepe.predict(audio,
+                         sr,
+                         hop_length,
+                         fmin,
+                         fmax,
+                         model,
+                         batch_size=batch_size,
+                         device=device)
 ```
 
 A periodicity metric similar to the Crepe confidence score can also be
