@@ -38,3 +38,14 @@ f0s = jaxcrepe.convert.bins_to_frequency(max_bins)
 
 print(f0s)  # [221.00099 438.45654 886.66187]
 ```
+
+## Why?
+
+Because JAX is awesome and blazing fast, but it needs more audio tooling. Simply porting the model code to Equinox
+results in a 5-6x speedup on GPU, without any tricks - just using `jax.jit` and `jax.vmap`. Running `scripts/benchmark.py`
+on an NVIDIA A5000 gives me:
+
+```
+torch: 62.6534 ms/it
+jax: 11.1497 ms/it
+```

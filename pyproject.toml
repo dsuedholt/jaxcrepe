@@ -13,6 +13,11 @@ dependencies = [
     'tqdm',
 ]
 
+[project.optional-dependencies]
+cuda12 = [
+    "jax[cuda12]",
+]
+
 [dependency-groups]
 dev = [
     "notebook>=7.4.3",
