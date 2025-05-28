@@ -1,0 +1,13 @@
+[project]
+name = "jaxcrepe"
+version = "0.1.0"
+description = "CREPE pitch detection model in JAX and Equinox"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    'librosa>=0.9.1',
+    'resampy',
+    'scipy',
+    'jax',
+    'equinox',
+]
